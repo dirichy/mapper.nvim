@@ -1,15 +1,16 @@
 local M = {}
+---@type Mapper.Allmaps
 M.maps = { i = {}, n = {}, x = {}, o = {}, t = {} }
 M.condition = {
 	always = function()
 		return true
 	end,
 }
----@class MapperConfig
+---@class Mapper.Config
 ---@field debug boolean
 local cfg = { debug = false }
 
----@param user_config MapperConfig
+---@param user_config Mapper.Config
 M.setup = function(user_config)
 	cfg = vim.tbl_deep_extend("force", cfg, user_config) or cfg
 end
@@ -29,8 +30,8 @@ end
 
 ---@param mode VimMode[]|VimMode: The mode or list of modes the mapping should apply to
 ---@param lhs string: left part of mapping
----@param rhs string|fun(): string|nil Right part of mapping
----@param opts? table: options for our keymap
+---@param rhs string|function Right part of mapping
+---@param opts? Mapper.keymap: options for our keymap
 M.map_keymap = function(mode, lhs, rhs, opts)
 	---@type VimMode[]
 	mode = type(mode) == "table" and mode or { mode }
@@ -60,7 +61,7 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 			M.maps[m][lhs] = { opts }
 			return true
 		end
-		for pos, keymap in M.maps[m][lhs] do
+		for pos, keymap in ipairs(M.maps[m][lhs]) do
 			if opts.priority < keymap.priority then
 				table.insert(M.maps[m][lhs], pos, opts)
 				return true
