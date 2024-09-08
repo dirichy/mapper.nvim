@@ -49,6 +49,7 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 	opts.priority = opts.priority or 100
 	for _, m in ipairs(mode) do
 		if not M.maps[m][lhs] then
+			M.maps[m][lhs] = {}
 			local keymap_meta_info = vim.fn.maparg(lhs, m, nil, true)
 			if vim.fn.len(keymap_meta_info) ~= 0 then
 				M.maps[m][lhs][1] = vim.deepcopy(keymap_meta_info, true)
