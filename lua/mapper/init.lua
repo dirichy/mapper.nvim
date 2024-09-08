@@ -42,6 +42,9 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 	else
 		error("Unknown type of rhs")
 	end
+	if type(opts.condition) ~= "function" then
+		error("Invalid condition for keymap")
+	end
 	opts.priority = opts.priority or 100
 	for _, m in ipairs(mode) do
 		if not M.maps[m][lhs] then
