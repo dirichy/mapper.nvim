@@ -57,7 +57,7 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 			M.setkeymap(m, lhs)
 		end
 		if not M.maps[m][lhs] then
-			M.maps[m][lhs] = opts
+			M.maps[m][lhs] = { opts }
 			return true
 		end
 		for pos, keymap in M.maps[m][lhs] do
