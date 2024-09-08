@@ -80,7 +80,7 @@ function M.setkeymap(m, lhs)
 				end
 			end
 		end
-		print("Find no mappings!")
+		send_keys_to_nvim_with_count(lhs)
 	end, { desc = "Mapper" })
 end
 
