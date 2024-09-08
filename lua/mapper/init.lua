@@ -76,11 +76,9 @@ function M.setkeymap(m, lhs)
 		for _, keymap in ipairs(M.maps[m][lhs]) do
 			if keymap.condition() then
 				if keymap.callback then
-					keymap.callback()
-					break
+					return keymap.callback()
 				elseif keymap.rhs then
-					send_keys_to_nvim_with_count(keymap.rhs)
-					break
+					return send_keys_to_nvim_with_count(keymap.rhs)
 				end
 			end
 		end
