@@ -42,6 +42,7 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 	else
 		error("Unknown type of rhs")
 	end
+	opts.priority = opts.priority or 100
 	for _, m in ipairs(mode) do
 		if not M.maps[m][lhs] then
 			local keymap_meta_info = vim.fn.maparg(lhs, m, nil, true)
@@ -156,4 +157,4 @@ end
 -- 	end)
 -- end
 --
--- return M
+return M
