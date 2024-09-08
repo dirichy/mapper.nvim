@@ -62,7 +62,7 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 			return true
 		end
 		for pos, keymap in ipairs(M.maps[m][lhs]) do
-			if opts.priority < keymap.priority then
+			if opts.priority > keymap.priority then
 				table.insert(M.maps[m][lhs], pos, opts)
 				return true
 			end
