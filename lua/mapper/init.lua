@@ -107,6 +107,9 @@ function M.setkeymap(m, lhs)
 			return nil
 		end,
 	})
+	if package.loaded["which-key"] then
+		require("which-key").add(M.which_key_spec[#M.which_key_spec])
+	end
 	vim.keymap.set(m, lhs, M.which_key_spec[#M.which_key_spec][2], { desc = "Mapper" })
 end
 
