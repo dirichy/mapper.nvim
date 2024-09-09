@@ -6,6 +6,7 @@ M.condition = {
 		return true
 	end,
 }
+M.which_key_spec = {}
 ---@class Mapper.Config
 ---@field debug boolean
 local cfg = { debug = false }
@@ -73,19 +74,40 @@ M.map_keymap = function(mode, lhs, rhs, opts)
 		return true
 	end
 end
+
 function M.setkeymap(m, lhs)
-	vim.keymap.set(m, lhs, function()
-		for _, keymap in ipairs(M.maps[m][lhs]) do
-			if keymap.condition() then
-				if keymap.callback then
-					return keymap.callback()
-				elseif keymap.rhs then
-					return send_keys_to_nvim_with_count(keymap.rhs)
+	table.insert(M.which_key_spec, {
+		lhs,
+		function()
+			for _, keymap in ipairs(M.maps[m][lhs]) do
+				if keymap.condition() then
+					if keymap.callback then
+						return keymap.callback()
+					elseif keymap.rhs then
+						return send_keys_to_nvim_with_count(keymap.rhs)
+					end
 				end
 			end
-		end
-		send_keys_to_nvim_with_count(lhs)
-	end, { desc = "Mapper" })
+			send_keys_to_nvim_with_count(lhs)
+		end,
+		desc = function()
+			for _, keymap in ipairs(M.maps[m][lhs]) do
+				if keymap.condition() then
+					return keymap.desc
+				end
+			end
+			return nil
+		end,
+		icon = function()
+			for _, keymap in ipairs(M.maps[m][lhs]) do
+				if keymap.condition() then
+					return keymap.icon
+				end
+			end
+			return nil
+		end,
+	})
+	vim.keymap.set(m, lhs, M.which_key_spec[#M.which_key_spec][2], { desc = "Mapper" })
 end
 
 ---@alias VimMode "n" | "v" | "i" | "x" | "s" | "t" | "c"
