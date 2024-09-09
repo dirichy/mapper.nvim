@@ -77,6 +77,7 @@ end
 
 function M.setkeymap(m, lhs)
 	table.insert(M.which_key_spec, {
+		mode = m,
 		lhs,
 		function()
 			for _, keymap in ipairs(M.maps[m][lhs]) do
