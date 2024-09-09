@@ -11,3 +11,5 @@
 ---@field x Mapper.maps
 ---@field o Mapper.maps
 ---@field t Mapper.maps
+---@field c Mapper.maps
+---@field r Mapper.maps

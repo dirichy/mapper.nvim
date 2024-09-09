@@ -1,6 +1,6 @@
 local M = {}
 ---@type Mapper.Allmaps
-M.maps = { i = {}, n = {}, x = {}, o = {}, t = {} }
+M.maps = { i = {}, n = {}, x = {}, o = {}, t = {}, c = {}, r = {} }
 M.condition = {
 	always = function()
 		return true
@@ -34,6 +34,7 @@ end
 ---@param opts? Mapper.keymap: options for our keymap
 M.map_keymap = function(mode, lhs, rhs, opts)
 	---@type VimMode[]
+	lhs = vim.fn.keytrans(vim.keycode(lhs))
 	mode = type(mode) == "table" and mode or { mode }
 	opts = opts or {}
 	if type(rhs) == "function" then
@@ -87,7 +88,7 @@ function M.setkeymap(m, lhs)
 	end, { desc = "Mapper" })
 end
 
----@alias VimMode "n" | "v" | "i" | "x" | "s" | "t"
+---@alias VimMode "n" | "v" | "i" | "x" | "s" | "t" | "c"
 ---@class Keymap
 ---@field[1]  VimMode[]|VimMode: mode
 ---@field[2] string: left
